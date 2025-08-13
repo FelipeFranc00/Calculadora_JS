@@ -1,0 +1,12 @@
+main {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+#teclado{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    text-align: center;
+}
