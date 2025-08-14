@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     const pantalla = document.getElementById('pantalla');
     const botones = document.querySelectorAll('#teclado button');
-    
+    const pantallaResultado = document.getElementById('pantallaResultado');
     // Variables para guardar los números y operaciones
     let primerNumero = '';
     let operacionActual = '';
-    let segundoNumero = '';
     let debeLimpiarPantalla = false;
+    let operacionEnCurso = '';
+    
 
     // Función para actualizar la pantalla
     function actualizarPantalla(valor) {
@@ -19,39 +20,36 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Función para realizar cálculos
-    function calcularResultado() {
-        const num1 = parseFloat(primerNumero);
-        const num2 = parseFloat(pantalla.value);
-        let resultado = 0;
-        
-        switch (operacionActual) {
-            case '+':
-                resultado = num1 + num2;
-                break;
-            case '-':
-                resultado = num1 - num2;
-                break;
-            case '*':
-                resultado = num1 * num2;
-                break;
-            case '/':
-                resultado = num2 !== 0 ? num1 / num2 : 'Error';
-                break;
-            case '^':
-                resultado = num1 ** num2;
-                break;
-            case '%':
-                
-                break;
-                default:
-                    return;
-                }
-            
-                pantalla.value = resultado;
-                primerNumero = resultado.toString();
-                operacionActual = '';
-                debeLimpiarPantalla = true;
-            }
+function calcularResultado() {
+    const num1 = parseFloat(primerNumero);
+    const num2 = parseFloat(pantalla.value);
+    let resultado = 0;
+    
+    switch (operacionActual) {
+        case '+':
+            resultado = num1 + num2;
+            break;
+        case '-':
+            resultado = num1 - num2;
+            break;
+        case '*':
+            resultado = num1 * num2;
+            break;
+        case '/':
+            resultado = num2 !== 0 ? num1 / num2 : 'Error';
+            break;
+        case '^':
+            resultado = num1 ** num2;
+            break;
+        default:
+            return;
+    }
+    pantalla.value = resultado; // <-- Actualiza la pantalla principal
+    pantallaResultado.value = resultado;
+    primerNumero = resultado.toString();
+    operacionActual = '';
+    debeLimpiarPantalla = true;
+}
                 
                 
 
@@ -60,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para limpiar todo
     function limpiarCalculadora() {
         pantalla.value = '0';
+        pantallaResultado.value='0'
         primerNumero = '';
         segundoNumero = '';
         operacionActual = '';
