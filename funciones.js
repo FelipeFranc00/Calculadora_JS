@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Variables para guardar los números y operaciones
     let primerNumero = '';
-    let segundoNumero = '';
     let operacionActual = '';
+    let segundoNumero = '';
     let debeLimpiarPantalla = false;
 
     // Función para actualizar la pantalla
