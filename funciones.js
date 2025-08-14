@@ -37,15 +37,25 @@ document.addEventListener('DOMContentLoaded', function() {
             case '/':
                 resultado = num2 !== 0 ? num1 / num2 : 'Error';
                 break;
-            default:
-                return;
-        }
-        
-        pantalla.value = resultado;
-        primerNumero = resultado.toString();
-        operacionActual = '';
-        debeLimpiarPantalla = true;
-    }
+            case '^':
+                resultado = num1 ** num2;
+                break;
+            case '%':
+                
+                break;
+                default:
+                    return;
+                }
+            
+                pantalla.value = resultado;
+                primerNumero = resultado.toString();
+                operacionActual = '';
+                debeLimpiarPantalla = true;
+            }
+                
+                
+
+                
 
     // Función para limpiar todo
     function limpiarCalculadora() {
@@ -67,10 +77,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Si es un operador (+, -, *, /)
-            else if (['+', '-', '*', '/'].includes(valorBoton)) {
+            else if (['+', '-', '*', '/','^'].includes(valorBoton)) {
                 if (operacionActual !== '') {
                     calcularResultado();
                 }
+                
+                    
+                
                 primerNumero = pantalla.value;
                 operacionActual = valorBoton;
                 debeLimpiarPantalla = true;
