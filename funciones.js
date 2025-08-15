@@ -2,12 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const botones = document.querySelectorAll('#teclado button');
     const historial = document.getElementById('historial');
     const pantalla = document.getElementById('num_pantalla');
-
     
-    //Array historial
-    let operacionesHistorial; 
-
     // Variables para guardar los números y operaciones
+    let operacionesHistorial = []; 
     let primerNumero = '';
     let operacionActual = '';
     let segundoNumero = '';
@@ -59,10 +56,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-        //Funcion para actualizar historial
-        function actualizarHistorial(historial){
-            historial.innerHTML = operacionesHistorial.slice(-20).reverse().join('<btr>')
-        }
+    //Funcion para actualizar historial
+    function actualizarHistorial(){
+        historial.innerHTML = operacionesHistorial.slice(-10).reverse().join('<br>');
+    }
         
 
         
@@ -141,13 +138,13 @@ document.addEventListener('DOMContentLoaded', function() {
         operacionActual = '';
         debeLimpiarPantalla = true;
         historial.textContent = `${expresionCompleta} = ${resultado}`;
-        operacionesHistorial.push(`${expresionCompleta} = ${resultado}`)
-        actualizarHistorial();
+        operacionesHistorial.push(`${expresionCompleta} = ${resultado}`);
+        actualizarHistorial();    
     }
 
     // Variable para recordar la operación anterior al porcentaje
     let operacionAnterior = '';
-
+    
     // Función para limpiar todo
     function limpiarCalculadora() {
         pantalla.value = '0';
