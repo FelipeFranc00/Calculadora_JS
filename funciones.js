@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const pantalla = document.getElementById('pantalla');
+    const pantalla = document.getElementById('num_pantalla');
     const botones = document.querySelectorAll('#teclado button');
+    const historial = document.getElementById('historial');
     
     // Variables para guardar los números y operaciones
     let primerNumero = '';
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const num1 = parseFloat(primerNumero);
         const num2 = parseFloat(pantalla.value);
         let resultado = 0;
+        const expresionCompleta = `${primerNumero} ${operacionActual} ${pantalla.value}`;
         
         switch (operacionActual) {
             case '+':
@@ -51,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 primerNumero = resultado.toString();
                 operacionActual = '';
                 debeLimpiarPantalla = true;
+                 historial.textContent = `${expresionCompleta} = ${resultado}`;
             }
                 
                 

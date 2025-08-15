@@ -1,13 +1,55 @@
 main {
     display: flex;
-    flex-direction: column;
-    width: 300px;
+    justify-content: center;
+    min-height: 100vh;
+    align-items: center;
+    margin: 0;
 }
 
 #teclado{
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
+    gap: 0px;
+}
+
+.pantalla {
     text-align: center;
 }
 
+#pantalla {
+    text-align: right;
+}
+
+
+.tecla_igual {
+    border-bottom-right-radius: 20px;
+}
+
+#teclado button{
+    flex: 1;
+}
+
+.fila1, .fila2, .fila3, .fila4, .fila5 {
+    display: flex;
+    gap: 0px;
+}
+
+.fila1 button, .fila2 button, .fila3 button, .fila4 button, .fila5 button {
+    flex: 1;
+    padding: 25px;
+    font-size: 20px;
+    border: none;
+}
+
+#num_pantalla {
+    height: 100px;
+    width: 320px;
+    font-size: 5em;
+    text-align: right;
+    border: none;
+}
+
+#historial {
+    text-align: right;
+    padding-top: 8em;
+}
