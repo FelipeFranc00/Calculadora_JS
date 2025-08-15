@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const pantalla = document.getElementById('num_pantalla');
     const botones = document.querySelectorAll('#teclado button');
     const historial = document.getElementById('historial');
+    const pantalla = document.getElementById('num_pantalla');
+
     
     // Variables para guardar los números y operaciones
     let primerNumero = '';

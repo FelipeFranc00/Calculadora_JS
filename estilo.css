@@ -29,6 +29,12 @@ main {
     flex: 1;
 }
 
+#teclado button:hover{
+    transform: scale(1.05);
+    color:aliceblue;
+    background-color: black;
+}
+
 .fila1, .fila2, .fila3, .fila4, .fila5 {
     display: flex;
     gap: 0px;
