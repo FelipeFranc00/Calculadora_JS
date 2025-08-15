@@ -10,6 +10,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 0px;
+    padding: 1em;
 }
 
 .pantalla {
@@ -20,19 +21,14 @@ main {
     text-align: right;
 }
 
-
-.tecla_igual {
-    border-bottom-right-radius: 20px;
-}
-
 #teclado button{
     flex: 1;
 }
 
 #teclado button:hover{
     transform: scale(1.05);
-    color:aliceblue;
-    background-color: black;
+    color:rgb(231, 231, 231);
+    background-color: rgb(123, 146, 240);
 }
 
 .fila1, .fila2, .fila3, .fila4, .fila5 {
@@ -45,6 +41,7 @@ main {
     padding: 25px;
     font-size: 20px;
     border: none;
+    background-color: white;
 }
 
 #num_pantalla {
@@ -53,9 +50,28 @@ main {
     font-size: 5em;
     text-align: right;
     border: none;
+    background-color: rgb(123, 146, 240);
+    color:rgb(231, 231, 231);
+    padding-right: 10px;
 }
 
 #historial {
     text-align: right;
-    padding-top: 8em;
+    background-color: rgb(123, 146, 240);
+    color:rgb(231, 231, 231);
+    padding-right: 10px;
+}
+
+#fondo {
+    display: flex;
+    height: 150px;
+    background-color: rgb(123, 146, 240);
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+}
+
+.tecla_igual {
+    background-color: rgb(123, 146, 240);
+    border-bottom-right-radius: 20px;
+    color:rgb(231, 231, 231);
 }
