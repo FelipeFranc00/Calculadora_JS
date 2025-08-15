@@ -75,3 +75,7 @@ main {
     border-bottom-right-radius: 20px;
     color:rgb(231, 231, 231);
 }
+
+.fila5 > .tecla_igual {
+    background-color: rgb(123, 146, 240);
+}
