@@ -6,6 +6,68 @@ document.addEventListener('DOMContentLoaded', function() {
     let operacionEnCurso = '';
     let debeLimpiarPantalla = false;
 
+    const pantalla = document.getElementById('num_pantalla');
+    const botones = document.querySelectorAll('#teclado button');
+    const historial = document.getElementById('historial');
+    
+    // Variables para guardar los números y operaciones
+    let primerNumero = '';
+    let operacionActual = '';
+    let segundoNumero = '';
+    let debeLimpiarPantalla = false;
+
+    // Función para actualizar la pantalla
+    function actualizarPantalla(valor) {
+        if (pantalla.value === '0' || debeLimpiarPantalla) {
+            pantalla.value = valor;
+            debeLimpiarPantalla = false;
+        } else {
+            pantalla.value += valor;
+        }
+    }
+
+    // Función para realizar cálculos
+    function calcularResultado() {
+        const num1 = parseFloat(primerNumero);
+        const num2 = parseFloat(pantalla.value);
+        let resultado = 0;
+        const expresionCompleta = `${primerNumero} ${operacionActual} ${pantalla.value}`;
+        
+        switch (operacionActual) {
+            case '+':
+                resultado = num1 + num2;
+                break;
+            case '-':
+                resultado = num1 - num2;
+                break;
+            case '*':
+                resultado = num1 * num2;
+                break;
+            case '/':
+                resultado = num2 !== 0 ? num1 / num2 : 'Error';
+                break;
+            case '^':
+                resultado = num1 ** num2;
+                break;
+            case '%':
+                
+                break;
+                default:
+                    return;
+                }
+            
+                pantalla.value = resultado;
+                primerNumero = resultado.toString();
+                operacionActual = '';
+                debeLimpiarPantalla = true;
+                 historial.textContent = `${expresionCompleta} = ${resultado}`;
+            }
+                
+                
+
+                
+
+    // Función para limpiar todo
     function limpiarCalculadora() {
         pantalla.value = '0';
         pantallaResultado.value = '0';
