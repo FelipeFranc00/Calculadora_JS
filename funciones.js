@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const botones = document.querySelectorAll('#teclado button');
     const historial = document.getElementById('historial');
     const pantalla = document.getElementById('num_pantalla');
-    const fondo = document.querySelectorall('.calculadora');
 
     
     // Variables para guardar los números y operaciones
