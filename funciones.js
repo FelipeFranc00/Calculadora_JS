@@ -56,6 +56,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function masMenos(numero) { 
+        resultado = numero * -1;   
+    }
+
     // Función para realizar cálculos
     function calcularResultado() {
         const num1 = parseFloat(primerNumero);
@@ -84,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     resultado = 'Error';
                     expresionCompleta = `${primerNumero} ÷ ${pantalla.value}`;
                 }
-                break;
+            
             case '^':
                 resultado = num1 ** num2;
                 expresionCompleta = `${primerNumero} ^ ${pantalla.value}`;
@@ -92,8 +96,9 @@ document.addEventListener('DOMContentLoaded', function() {
             case '%':
                 // Aquí implementamos la lógica del porcentaje
                 resultado = operacionConPorcentaje(num1, num2, operacionAnterior);
+            
                 
-                // Construir la expresión según el contexto
+            // Construir la expresión según el contexto
                 if (operacionAnterior) {
                     switch(operacionAnterior) {
                         case '+':
@@ -108,11 +113,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         case '/':
                             expresionCompleta = `${primerNumero} ÷ ${pantalla.value}%`;
                             break;
+                        
                     }
                 } else {
                     expresionCompleta = `${pantalla.value}% de ${primerNumero}`;
                 }
                 break;
+                    
+                    
             default:
                 return;
         }
@@ -191,6 +199,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Si es AC (limpiar)
             else if (valorBoton === 'AC') {
                 limpiarCalculadora();
+            }
+            // Si es +/-
+            else if(valorBoton==='+/-'){
+                let valorActual = parseFloat(pantalla.value);
+                if(valorActual!==0){
+                    valorActual =valorActual * -1;
+                    pantalla.value = valorActual;   
+                }
             }
         });
     });
