@@ -1,11 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const pantalla = document.getElementById('pantalla');
-    const pantallaResultado = document.getElementById('pantallaResultado');
-    const botones = document.querySelectorAll('#teclado button');
-
-    let operacionEnCurso = '';
-    let debeLimpiarPantalla = false;
-
     const pantalla = document.getElementById('num_pantalla');
     const botones = document.querySelectorAll('#teclado button');
     const historial = document.getElementById('historial');
@@ -15,6 +8,42 @@ document.addEventListener('DOMContentLoaded', function() {
     let operacionActual = '';
     let segundoNumero = '';
     let debeLimpiarPantalla = false;
+
+    // Funciones de porcentaje
+    function restarPorcentaje(numero, porcentaje) {
+        const valorPorcentaje = (numero * porcentaje) / 100;
+        return numero - valorPorcentaje;
+    }
+
+    function sumarPorcentaje(numero, porcentaje) {
+        const valorPorcentaje = (numero * porcentaje) / 100;
+        return numero + valorPorcentaje;
+    }
+
+    function multiplicarPorPorcentaje(numero, porcentaje) {
+        return (numero * porcentaje) / 100;
+    }
+
+    function dividirPorPorcentaje(numero, porcentaje) {
+        return (numero * 100) / porcentaje;
+    }
+
+    // Función para determinar el tipo de operación con porcentaje
+    function operacionConPorcentaje(numero, porcentaje, operacionPrevia) {
+        switch(operacionPrevia) {
+            case '+':
+                return sumarPorcentaje(numero, porcentaje);
+            case '-':
+                return restarPorcentaje(numero, porcentaje);
+            case '*':
+                return multiplicarPorPorcentaje(numero, porcentaje);
+            case '/':
+                return dividirPorPorcentaje(numero, porcentaje);
+            default:
+                // Si no hay operación previa, devuelve el porcentaje del número
+                return multiplicarPorPorcentaje(numero, porcentaje);
+        }
+    }
 
     // Función para actualizar la pantalla
     function actualizarPantalla(valor) {
@@ -31,108 +60,136 @@ document.addEventListener('DOMContentLoaded', function() {
         const num1 = parseFloat(primerNumero);
         const num2 = parseFloat(pantalla.value);
         let resultado = 0;
-        const expresionCompleta = `${primerNumero} ${operacionActual} ${pantalla.value}`;
+        let expresionCompleta = '';
         
         switch (operacionActual) {
             case '+':
                 resultado = num1 + num2;
+                expresionCompleta = `${primerNumero} + ${pantalla.value}`;
                 break;
             case '-':
                 resultado = num1 - num2;
+                expresionCompleta = `${primerNumero} - ${pantalla.value}`;
                 break;
             case '*':
                 resultado = num1 * num2;
+                expresionCompleta = `${primerNumero} × ${pantalla.value}`;
                 break;
             case '/':
-                resultado = num2 !== 0 ? num1 / num2 : 'Error';
+                if (num2 !== 0) {
+                    resultado = num1 / num2;
+                    expresionCompleta = `${primerNumero} ÷ ${pantalla.value}`;
+                } else {
+                    resultado = 'Error';
+                    expresionCompleta = `${primerNumero} ÷ ${pantalla.value}`;
+                }
                 break;
             case '^':
                 resultado = num1 ** num2;
+                expresionCompleta = `${primerNumero} ^ ${pantalla.value}`;
                 break;
             case '%':
+                // Aquí implementamos la lógica del porcentaje
+                resultado = operacionConPorcentaje(num1, num2, operacionAnterior);
                 
-                break;
-                default:
-                    return;
+                // Construir la expresión según el contexto
+                if (operacionAnterior) {
+                    switch(operacionAnterior) {
+                        case '+':
+                            expresionCompleta = `${primerNumero} + ${pantalla.value}%`;
+                            break;
+                        case '-':
+                            expresionCompleta = `${primerNumero} - ${pantalla.value}%`;
+                            break;
+                        case '*':
+                            expresionCompleta = `${primerNumero} × ${pantalla.value}%`;
+                            break;
+                        case '/':
+                            expresionCompleta = `${primerNumero} ÷ ${pantalla.value}%`;
+                            break;
+                    }
+                } else {
+                    expresionCompleta = `${pantalla.value}% de ${primerNumero}`;
                 }
-            
-                pantalla.value = resultado;
-                primerNumero = resultado.toString();
-                operacionActual = '';
-                debeLimpiarPantalla = true;
-                 historial.textContent = `${expresionCompleta} = ${resultado}`;
-            }
-                
-                
+                break;
+            default:
+                return;
+        }
+        
+        if (resultado !== 'Error') {
+            // Redondear a 8 decimales para evitar errores de precisión
+            resultado = Math.round(resultado * 100000000) / 100000000;
+        }
+        
+        pantalla.value = resultado;
+        primerNumero = resultado.toString();
+        operacionActual = '';
+        debeLimpiarPantalla = true;
+        historial.textContent = `${expresionCompleta} = ${resultado}`;
+    }
 
-                
+    // Variable para recordar la operación anterior al porcentaje
+    let operacionAnterior = '';
 
     // Función para limpiar todo
     function limpiarCalculadora() {
         pantalla.value = '0';
-        pantallaResultado.value = '0';
-        operacionEnCurso = '';
+        primerNumero = '';
+        segundoNumero = '';
+        operacionActual = '';
+        operacionAnterior = '';
         debeLimpiarPantalla = false;
+        historial.textContent = '';
     }
 
-    function calcularResultado() {
-        try {
-            // Reemplaza ^ por ** para potencias en JS
-            let operacionEval = operacionEnCurso.replace(/\^/g, '**');
-            let resultado = eval(operacionEval);
-            pantallaResultado.value = resultado;
-            pantalla.value = operacionEnCurso + ' =';
-            operacionEnCurso = resultado.toString();
-            debeLimpiarPantalla = true;
-        } catch {
-            pantallaResultado.value = 'Error';
-        }
-    }
-
+    // Eventos para cada botón
     botones.forEach(boton => {
         boton.addEventListener('click', function() {
             const valorBoton = boton.textContent;
-
-            // Si es un número o punto
+            
+            // Si es un número (0-9) o punto decimal
             if (!isNaN(valorBoton) || valorBoton === '.') {
-                if (pantalla.value === '0' || debeLimpiarPantalla || pantalla.value.endsWith('=')) {
-                    pantalla.value = valorBoton;
-                    operacionEnCurso = valorBoton;
-                    debeLimpiarPantalla = false;
-                } else {
-                    pantalla.value += valorBoton;
-                    operacionEnCurso += valorBoton;
-                }
+                actualizarPantalla(valorBoton);
             }
-            // Si es un operador
+            
+            // Si es un operador (+, -, *, /, ^)
             else if (['+', '-', '*', '/', '^'].includes(valorBoton)) {
-                // Si la pantalla termina en '=', empieza nueva operación con el resultado anterior
-                if (pantalla.value.endsWith('=')) {
-                    pantalla.value = pantallaResultado.value + valorBoton;
-                    operacionEnCurso = pantallaResultado.value + (valorBoton === '^' ? '^' : valorBoton);
-                    debeLimpiarPantalla = false;
+                if (operacionActual !== '') {
+                    calcularResultado();
+                }
+                
+                primerNumero = pantalla.value;
+                operacionActual = valorBoton;
+                operacionAnterior = valorBoton; // Guardar para uso con porcentaje
+                debeLimpiarPantalla = true;
+            }
+            
+            // Si es el operador de porcentaje (%)
+            else if (valorBoton === '%') {
+                if (primerNumero !== '') {
+                    // Si ya hay un primer número y una operación
+                    operacionActual = '%';
+                    debeLimpiarPantalla = true;
                 } else {
-                    pantalla.value += valorBoton;
-                    operacionEnCurso += (valorBoton === '^' ? '^' : valorBoton);
+                    // Si solo queremos calcular el porcentaje del número actual
+                    const numeroActual = parseFloat(pantalla.value);
+                    const resultado = numeroActual / 100;
+                    pantalla.value = resultado;
+                    historial.textContent = `${numeroActual}% = ${resultado}`;
+                    debeLimpiarPantalla = true;
                 }
             }
-            // Si es igual
+            
+            // Si es igual (=)
             else if (valorBoton === '=') {
-                calcularResultado();
+                if (operacionActual !== '') {
+                    calcularResultado();
+                }
             }
+            
             // Si es AC (limpiar)
             else if (valorBoton === 'AC') {
                 limpiarCalculadora();
-            }
-            // Si es porcentaje
-            else if (valorBoton === '%') {
-                // Convierte el último número en porcentaje
-                let match = operacionEnCurso.match(/(\d+\.?\d*)$/);
-                if (match) {
-                    let num = parseFloat(match[1]) / 100;
-                    operacionEnCurso = operacionEnCurso.replace(/(\d+\.?\d*)$/, num);
-                    pantalla.value = operacionEnCurso;
-                }
             }
         });
     });
