@@ -79,3 +79,11 @@ main {
 .fila5 > .tecla_igual {
     background-color: rgb(123, 146, 240);
 }
+
+.modo_oscuro {
+    margin-left: 290px;
+    margin-top: 20px;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+}
