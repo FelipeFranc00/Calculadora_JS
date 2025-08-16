@@ -140,9 +140,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Lógica para el botón de modo oscuro
-    if (botonModoOscuro && calculadora) {
+    if (botonModoOscuro && calculadora && historial) {
         botonModoOscuro.addEventListener('click', function() {
             calculadora.classList.toggle('modo-oscuro');
+            historial.classList.toggle('modo-oscuro');
         });
     }
 });

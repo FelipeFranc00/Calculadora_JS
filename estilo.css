@@ -6,6 +6,26 @@ main {
     margin: 0;
 }
 
+.contenedor-principal{
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+#historial{
+    min-width: 200px;
+    min-height: 300px;
+    background-color: rgb(123, 146, 240);
+    color: rgb(231, 231, 231);
+    padding: 20px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    text-align: left;
+    box-sizing: border-box;
+    margin-top: 30px;
+
+}
+
 #teclado{
     display: flex;
     flex-direction: column;
@@ -163,4 +183,8 @@ main {
 .calculadora.modo-oscuro .fila1 > .tecla_AC {
     background-color: rgb(237, 120, 101);
     color:rgb(231, 231, 231);
+}
+#historial.modo-oscuro{
+        background-color: rgb(237, 120, 101);
+    color:rgb(0, 0, 0);
 }
