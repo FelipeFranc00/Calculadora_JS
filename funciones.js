@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //Funcion para actualizar historial
     function actualizarHistorial(){
-        historial.innerHTML = operacionesHistorial.slice(-10).reverse().join('<br>');
+        historial.innerHTML = operacionesHistorial.slice(-10).join('<br>');
     }
         
 
