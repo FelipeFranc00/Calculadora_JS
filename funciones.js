@@ -1,6 +1,9 @@
+//DOM
 document.addEventListener('DOMContentLoaded', function() {
     const botones = document.querySelectorAll('#teclado button');
     const historial = document.getElementById('historial');
+    const operacionesDiv = document.getElementById('operaciones'); // Nueva línea
+    const botonBorrarHistorial = document.getElementById('borrar_historial'); // Nueva línea
     const pantalla = document.getElementById('num_pantalla');
     const botonModoOscuro = document.getElementById('modo_oscuro');
     const calculadora = document.querySelector('.calculadora');
@@ -17,13 +20,23 @@ document.addEventListener('DOMContentLoaded', function() {
             pantalla.value = valor;
             debeLimpiarPantalla = false;
         } else {
+            // Validar punto decimal múltiple
+            if (valor === '.' && pantalla.value.includes('.')) {
+                return;
+            }
             pantalla.value += valor;
         }
     }
 
-    //Funcion para actualizar historial
+    // Función para actualizar historial
     function actualizarHistorial(){
-        historial.innerHTML = operacionesHistorial.slice(-10).join('<br>');
+        operacionesDiv.innerHTML = operacionesHistorial.slice(-10).join('<br>');
+    }
+
+    // Función para limpiar solo el historial
+    function limpiarHistorial() {
+        operacionesHistorial = [];
+        operacionesDiv.innerHTML = '';
     }
 
     // Función para realizar cálculos
@@ -50,21 +63,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     resultado = 'Error';
                 }
                 break;
-            case '^':
-                resultado = num1 ** num2;
-                break;
             case '%':
-                // La lógica del porcentaje se ejecuta aquí
-                resultado = num1 + (num2 / 100);
-                expresionCompleta = `${primerNumero} + ${pantalla.value}%`;
+                resultado = (num1 * num2) / 100;
+                expresionCompleta = `${primerNumero} × ${pantalla.value}%`;
                 break;
             default:
                 return;
         }
         
-        if (resultado !== 'Error' && !isNaN(resultado)) {
+        if (resultado !== 'Error' && !isNaN(resultado) && isFinite(resultado)) {
             // Redondea para evitar problemas de precisión de flotantes
-            pantalla.value = parseFloat(resultado.toFixed(8));
+            resultado = parseFloat(resultado.toFixed(8));
+            pantalla.value = resultado;
         } else {
             pantalla.value = 'Error';
         }
@@ -85,8 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         primerNumero = '';
         operacionActual = '';
         debeLimpiarPantalla = false;
-        historial.innerHTML = '';
-        operacionesHistorial = [];
+        
     }
 
     // Eventos para cada botón
@@ -98,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 actualizarPantalla(valorBoton);
             }
             
-            else if (['+', '-', '*', '/', '^'].includes(valorBoton)) {
+            else if (['+', '-', '*', '/'].includes(valorBoton)) {
                 if (operacionActual !== '') {
                     calcularResultado();
                 }
@@ -108,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             else if (valorBoton === '=') {
-                if (operacionActual !== '') {
+                if (operacionActual !== '' && primerNumero !== '') {
                     calcularResultado();
                 }
             }
@@ -125,19 +134,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             else if (valorBoton === '%') {
-                if (operacionActual !== '') {
+                if (operacionActual !== '' && primerNumero !== '') {
                     calcularResultado();
                 } else {
                     const numeroActual = parseFloat(pantalla.value);
                     if (!isNaN(numeroActual)) {
                         const resultado = numeroActual / 100;
                         pantalla.value = resultado;
-                        historial.innerHTML = `${numeroActual}% = ${resultado}`;
+                        operacionesHistorial.push(`${numeroActual}% = ${resultado}`);
+                        actualizarHistorial();
                     }
                 }
             }
         });
     });
+
+    // Evento para limpiar historial
+    if (botonBorrarHistorial) {
+        botonBorrarHistorial.addEventListener('click', limpiarHistorial);
+    }
 
     // Lógica para el botón de modo oscuro
     if (botonModoOscuro && calculadora && historial) {
