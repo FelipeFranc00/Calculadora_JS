@@ -67,6 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 resultado = (num1 * num2) / 100;
                 expresionCompleta = `${primerNumero} × ${pantalla.value}%`;
                 break;
+            case'^':
+                resultado = num1 ** num2;
+                break;
             default:
                 return;
         }
@@ -107,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 actualizarPantalla(valorBoton);
             }
             
-            else if (['+', '-', '*', '/'].includes(valorBoton)) {
+            else if (['+', '-', '*', '/','^'].includes(valorBoton)) {
                 if (operacionActual !== '') {
                     calcularResultado();
                 }
