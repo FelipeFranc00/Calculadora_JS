@@ -121,10 +121,10 @@ main {
     position: relative;
 }
 
-.tecla_igual {
-    background-color: rgb(123, 146, 240);
+.fila5 .tecla_igual {
     border-bottom-right-radius: 20px;
     color:rgb(231, 231, 231);
+    background-color: rgb(123, 146, 240);
 }
 
 .fila1 > .tecla_AC, .fila1 > .tecla_borrar_historial {
